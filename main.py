@@ -16,6 +16,10 @@
 # Commit your code in GitHub under the project listdir. Post the link to the project here
 
 import sys
+import glob
+import hashlib
+import pathlib
+import os
 
 #  Sample output in cmd: python PycharmProjects\Exercise2\main.py  C:\Users\delac\PycharmProjects\Exercise2 E.csv
 from configparser import ConfigParser
@@ -27,11 +31,6 @@ if __name__ == "__main__":
     print(f"Arguments count: {len(sys.argv)}")
     for i, arg in enumerate(sys.argv):
         print(f"Argument {i:>6}: {arg}")
-
-import glob
-import hashlib
-import pathlib
-import os
 
 file_path = []
 txt_files = []
@@ -53,8 +52,6 @@ def get_file():
     for text_file in glob.glob(folder_path + "\*.txt"):
         # For some reason, if I make this *.*, a problem with hashing occurs. I will ask for help regarding this
         txt_files.append(text_file)
-        print(txt_files)
-    print(folder_path+"*.txt")
 
 # print(txt_files)
 
@@ -111,13 +108,11 @@ for file in txt_files:
 # print("you entered " + text)
 # with open(input("Enter Desired File Name: "), "w") as Test_Write:
 completeName = os.path.join(folder_path, sys.argv[2])
-print('name is: ' + completeName)
 
 with open(completeName, "w") as Test_Write:
     first_column = "Parent path \t filename \t filesize \t sha1 \t md5"
     row = ""
     i = 0
-    print(len(txt_files))
     for i in range(len(txt_files)):
         row += file_path[i] + ",\t" + txt_files[i] + ",\t" + str(files_size[i]) + ",\t" + sha1[i] + ",\t" + md5[
             i] + "\n"
@@ -150,7 +145,6 @@ def config_parser():
         config.set('File Sizes', txt_files[j], str(files_size[j]))
         config.set('sha1', txt_files[j], sha1[j])
         config.set('md5', txt_files[j], str(md5[j]))
-        print(len(txt_files))
 
         with open(conf_path, 'w') as configfile:
             config.write(configfile)
